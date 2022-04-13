@@ -122,6 +122,7 @@ map.on("load", () => {
   });
 });
 
+
 map.on("load", () => {
   map.addSource("Panthera_Tigris_LInnaeus_1758-022kix", {
     type: "vector",
@@ -141,3 +142,5 @@ map.on("load", () => {
     },
   });
 });
+
+
