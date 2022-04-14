@@ -10,33 +10,13 @@ var lat = document.getElementById(`latInput`).value;
 var lon = document.getElementById(`longInput`).value;
 
 var map;
-// require(["esri/config", "esri/Map", "esri/views/MapView"], function (
-//   esriConfig,
-//   Map,
-//   MapView
-// ) {
-//   esriConfig.apiKey = "YOUR_API_KEY";
-
-//   const map = new Map({
-//     basemap: "arcgis-topographic", // Basemap layer service
-//   });
-
-//   const view = new MapView({
-//     map: map,
-//     center: [-118.805, 34.027], // Longitude, latitude
-//     zoom: 13, // Zoom level
-//     container: "viewDiv", // Div element
-//   });
-// });
-
-// ** Search function and Event Listeners**
 
 function runSearch(lat, lon) {
   console.log("RUN SEARCH FUNCION CALLED");
   map.flyTo({
-    center:[lon, lat]
-  })
-};
+    center: [lon, lat],
+  });
+}
 
 function setEventListeners() {
   document.addEventListener("click", function (event) {
@@ -54,8 +34,7 @@ function setEventListeners() {
       console.log(lat);
       console.log(lon);
 
-
-       runSearch(lat, lon); // RUN SEARCH FUNCTION
+      runSearch(lat, lon); // RUN SEARCH FUNCTION
     }
   });
 
@@ -77,7 +56,7 @@ function setEventListeners() {
       localStorage.clear(); // CLEAR STORAGE
     }
   });
-};
+}
 
 setEventListeners();
 
@@ -86,17 +65,17 @@ mapboxgl.accessToken =
 
 // setting geolocation
 navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
-  enableHighAccuracy: true
+  enableHighAccuracy: true,
 });
 
 function successLocation(position) {
-  console.log(position)
-  setupMap([position.coords.longitude, position.coords.latitude])
-};
+  console.log(position);
+  setupMap([position.coords.longitude, position.coords.latitude]);
+}
 
 function errorLocation() {
-  setupMap([-2.24, 53.48]) //default long/lat to Manchester, UK
-};
+  setupMap([-2.24, 53.48]); //default long/lat to Manchester, UK
+}
 
 //Put a setupMap function around map creation to add center parameter for geolocation
 function setupMap(center) {
@@ -146,7 +125,6 @@ function setupMap(center) {
     });
   });
 
-
   map.on("load", () => {
     map.addSource("Panthera_Tigris_LInnaeus_1758-022kix", {
       type: "vector",
@@ -166,5 +144,4 @@ function setupMap(center) {
       },
     });
   });
-};
-
+}

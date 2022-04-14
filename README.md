@@ -12,8 +12,14 @@ As a user,
 
 I want to be able to see wildlife density on a specific species, cross referenced with location.
 
-So that I can know what animals are concentrated in the area that I live.
+So that I can know what animals are concentrated in the area that I live or areas around the globe.
+
+# Link to Deployed Web Application:
+
+https://mdschenck.github.io/Wildlife-Census/
 
 # API’s used:
 
-Arc GIS
+GBIF Wildlife Sightings Occurance API
+
+Wikipedia API
