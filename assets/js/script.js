@@ -127,7 +127,6 @@ map.on("load", () => {
   });
 });
 
-
 // Elephant Layer
 map.on("load", () => {
   map.addSource("Elephus_Maximus_Linnaeus-0d8jht", {
@@ -148,7 +147,6 @@ map.on("load", () => {
     },
   });
 });
-
 
 //Otter Layer
 map.on("load", () => {
@@ -171,7 +169,6 @@ map.on("load", () => {
   });
 });
 
-
 //Snow Leopard Layer
 map.on("load", () => {
   map.addSource("Panthera_Uncia_Schreber1775-6vnt41", {
@@ -193,12 +190,9 @@ map.on("load", () => {
   });
 });
 
-
-
 // TODO: Connect this function to the "Select a Species" drop down menu
 // Get the JSON that contains the title and extract of the wikipedia article.
 function wikiGet(url) {
-
   // The var below on line 151 is a test URL
   // var flyingSquirrel = "https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts&titles=flying_squirrel&formatversion=2&exsentences=10&exlimit=1&explaintext=1";
 
@@ -212,10 +206,9 @@ function wikiGet(url) {
       // console.log(data);
       // console.log(data.query.pages[0].title);
       // console.log(data.query.pages[0].extract);
-      wildlifeStatsEl.append(data.query.pages[0].title)
-      wildlifeStatsEl.append(data.query.pages[0].extract)
-
+      wildlifeStatsEl.append(data.query.pages[0].title);
+      wildlifeStatsEl.append(data.query.pages[0].extract);
     });
 }
 
-
+// https://www.dictionaryapi.com/api/v3/references/collegiate/json/voluminous?key=your-api-key
