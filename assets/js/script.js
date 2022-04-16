@@ -5,19 +5,6 @@ var newSearch = document.getElementById("newSearch");
 var clearStorage = document.getElementById("clearStorage");
 var wildlifeStatsEl = document.querySelector("#wildlifeStats");
 
-const speciesOptions = {
-  tiger: "tiger",
-  flyingSquirrel: "flying_squirrel",
-  seaOtter: "sea_otter",
-  giantPanda: "giant_panda",
-  whoopingCrane: "whooping_crane",
-  blueWhale: "blue_whale",
-  elephant: "elephant",
-  snowLeopard: "snow_leopard",
-  gorilla: "gorilla"
-};
-
-
 var storedSearches = [];
 
 // ** Search function and Event Listeners**
@@ -30,17 +17,16 @@ var map;
 function runSearch(lat, lon) {
   console.log("RUN SEARCH FUNCTION CALLED");
   if (lat > 90 || lat < -90) {
-    window.alert ("Latitude value must be between -90 and 90")
+    window.alert("Latitude value must be between -90 and 90");
   } else if (lon > 180 || lon < -180) {
-    window.alert ("Longitude must be a value between -180 and 180")
+    window.alert("Longitude must be a value between -180 and 180");
   } else {
     map.flyTo({
-      center:[lon, lat],
+      center: [lon, lat],
       zoom: 9,
     });
   }
-};
-
+}
 
 function setEventListeners() {
   document.addEventListener("click", function (event) {
@@ -58,8 +44,9 @@ function setEventListeners() {
       console.log(lat);
       console.log(lon);
 
-
-       runSearch(lat, lon); // RUN SEARCH FUNCTION
+      runSearch(lat, lon); // RUN SEARCH FUNCTION
+      wikiGet();
+      wikiGetImage();
     }
   });
 
@@ -69,6 +56,7 @@ function setEventListeners() {
     if (element.matches("#newSearch")) {
       console.log("NEW Search Button Clicked");
       event.preventDefault();
+
       //  clearResults(); // CLEAR SEARCH RESULTS FOR NEW SEARCH
     }
   });
@@ -88,19 +76,19 @@ setEventListeners();
 mapboxgl.accessToken =
   "pk.eyJ1IjoiaWFuanVzdGluZmVycmlzIiwiYSI6ImNsMXUzdWFrdjI5YzEzY3BjcTN2bHdxcXkifQ.nHDp49alvjpiTFbRUmWL0Q";
 
-  // setting geolocation
+// setting geolocation
 navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
-  enableHighAccuracy: true
+  enableHighAccuracy: true,
 });
 
 function successLocation(position) {
-  console.log(position)
-  setupMap([position.coords.longitude, position.coords.latitude])
-};
+  console.log(position);
+  setupMap([position.coords.longitude, position.coords.latitude]);
+}
 
 function errorLocation() {
-  setupMap([-2.24, 53.48]) //default long/lat to Manchester, UK
-};
+  setupMap([-2.24, 53.48]); //default long/lat to Manchester, UK
+}
 
 //Put a setupMap function around map creation to add center parameter for geolocation
 function setupMap(center) {
@@ -174,7 +162,6 @@ function setupMap(center) {
     });
   });
 
-
   // Elephant Layer
   map.on("load", () => {
     map.addSource("Elephus_Maximus_Linnaeus-0d8jht", {
@@ -195,7 +182,6 @@ function setupMap(center) {
       },
     });
   });
-
 
   //Otter Layer
   map.on("load", () => {
@@ -218,7 +204,6 @@ function setupMap(center) {
     });
   });
 
-
   //Snow Leopard Layer
   map.on("load", () => {
     map.addSource("Panthera_Uncia_Schreber1775-6vnt41", {
@@ -239,7 +224,6 @@ function setupMap(center) {
       },
     });
   });
-
 
   //Gorilla Layer
   map.on("load", () => {
@@ -263,53 +247,23 @@ function setupMap(center) {
   });
 }
 
-
 // TODO: Connect this function to the "Select a Species" drop down menu
 // Get the JSON that contains the title and extract of the wikipedia article.
-function wikiGet(species) {
-  console.log(species);
-  console.log("https://en.wikipedia.org/wiki/" + species)
-  var wikiArticle = "https://en.wikipedia.org/wiki/" + species
-  var endpointURL =
-    "https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts&titles=" +
-    species +
-    "&formatversion=2&exsentences=10&exlimit=1&explaintext=1";
+function wikiGet(url) {
+  // The var below on line 151 is a test URL
+  var flyingSquirrel = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts&titles=${species}&formatversion=2&exsentences=10&exlimit=1&explaintext=1`;
 
-  fetch(endpointURL)
+  console.log(url);
+
+  fetch(url)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
-      console.log(data.query.pages[0].title);
-      console.log(data.query.pages[0].extract);
-      wildlifeStatsEl.append(data.query.pages[0].title + ": ");
+      // console.log(data);
+      // console.log(data.query.pages[0].title);
+      // console.log(data.query.pages[0].extract);
+      wildlifeStatsEl.append(data.query.pages[0].title);
       wildlifeStatsEl.append(data.query.pages[0].extract);
-      wildlifeStatsEl.append("For more information visit the following link: " + wikiArticle);
     });
 }
-
-// Get the JSON that contains the thumbnail for the wikipedia article.
-function wikiGetImage(species) {
-  var imageURL =
-    "http://en.wikipedia.org/w/api.php?action=query&titles=" +
-    species +
-    "&prop=pageimages&format=json&pithumbsize=200&origin=*";
-  fetch(imageURL)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      console.log(data);
-      var pageID = Object.keys(data.query.pages)[0];
-      var thumbnailFromPageID = data.query.pages[pageID].thumbnail.source;
-      console.log(thumbnailFromPageID);
-      imgElForThumbnail = document.createElement("img");
-      imgElForThumbnail.setAttribute("src", thumbnailFromPageID);
-      wildlifeStatsEl.append(imgElForThumbnail);
-    });
-}
-
-// Uncomment these 2 functions if you'd like to experiment with the speciesOptions object
-// wikiGetImage(speciesOptions.gorilla)
-// wikiGet(speciesOptions.gorilla)
