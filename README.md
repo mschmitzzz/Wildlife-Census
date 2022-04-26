@@ -14,7 +14,7 @@ So that I can know where endangered animals are concentrated around the world an
 
 # Link to Deployed Application:
 
-https://mdschenck.github.io/Wildlife-Census/
+https://mschmitzzz.github.io/Wildlife-Census/
 
 # API’s Used:
 
